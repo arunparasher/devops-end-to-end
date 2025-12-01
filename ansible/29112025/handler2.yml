@@ -1,0 +1,21 @@
+---
+- name: showing handlers demo
+  hosts: host1
+  force_handlers: true
+  tasks:
+  - name: copy a file
+    copy:
+      src: /tmp/index.html
+      dest: /var/www/html/index.html
+    notify:
+    - restart_web
+  - name: copy nothing - intended to fail
+    copy:
+      src: /tmp/nothing
+      dest: /var/www/html/nothing.html
+  handlers:
+  - name: restart_web
+    service: 
+      name: httpd
+      state: restarted
+      enabled: yes

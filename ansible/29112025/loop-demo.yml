@@ -1,0 +1,11 @@
+---
+- name: create users
+  hosts: localhost
+  vars_files:
+  - userdata
+  tasks:
+  - name: using the module and looping
+    user:
+      name: "{{ item }}"
+      state: absent
+    loop: "{{ users }}"

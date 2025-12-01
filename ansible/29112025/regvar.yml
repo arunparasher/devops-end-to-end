@@ -1,0 +1,10 @@
+---
+- name: demo register
+  hosts: host1
+  tasks:
+    - command: date
+      register: thisdate
+    - debug:
+        var: thisdate
+    - debug:
+        msg: the date is {{ thisdate.stdout }}

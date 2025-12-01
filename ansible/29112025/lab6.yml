@@ -1,0 +1,8 @@
+---
+- name: uninstalling web package
+  hosts: centos
+  tasks:
+    - name: uninstalling {{ webpackage }}
+      yum:
+        name: "{{ webpackage }}"
+        state: absent

@@ -1,0 +1,11 @@
+---
+- name: demo loop3
+  hosts: localhost
+  tasks:
+  - debug:
+      msg: showing {{ item.name}} with {{ item.groups }}
+    loop:
+    - name: anna
+      groups: wheel
+    - name: linda
+      groups: user

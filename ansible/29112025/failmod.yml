@@ -1,0 +1,13 @@
+---
+- name: demo fail module
+  hosts: localhost
+  ignore_errors: yes
+  tasks:
+  - command: echo hello world
+    register: cmd_result
+  - fail:
+      msg: the command has failed
+    when: "'world' in cmd_result.stdout"
+  - name: output from debug    
+    debug:
+      msg: sample output from debug > {{ cmd_result.changed }}

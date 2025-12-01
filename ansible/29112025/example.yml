@@ -1,0 +1,19 @@
+---
+- name: this is play one
+  gather_facts: no
+  hosts: localhost
+  tasks:
+    - name: task one
+      debug:
+        msg: this is message one
+
+    - name: task two
+      debug:
+        msg: this is message two
+- name: this is play two
+  gather_facts: no
+  hosts: localhost
+  tasks:
+    - name: this is task three
+      debug:
+        msg: this is message three

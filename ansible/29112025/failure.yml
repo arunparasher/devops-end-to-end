@@ -1,0 +1,12 @@
+---
+- name: failure demo
+  hosts: localhost
+  tasks:
+  - name: showing failure
+    command: echo hello world
+    ignore_errors: yes
+    register: command_result
+    failed_when: "'world' in command_result.stdout"
+  - name: print it
+    debug:
+      var: command_result

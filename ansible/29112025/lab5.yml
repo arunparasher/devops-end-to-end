@@ -1,0 +1,28 @@
+---
+- name: run a webserver
+  gather_facts: no
+  ignore_errors: true
+  hosts: host1
+  tasks:
+  - name: create file using shell
+    ansible.builtin.shell: 'echo hello world > /tmp/index.html'      
+  - name: installing httpd 
+    ansible.builtin.dnf:
+      name: httpd
+      state: latest
+  - name: start and enable httpd
+    ansible.builtin.service:
+      name: httpd
+      state: started
+      enabled: yes
+  - name: opening firewall
+    ansible.posix.firewalld:
+      service: http
+      state: enabled
+      immediate: yes
+      permanent: yes
+  - name: copy a prepared file
+    ansible.builtin.copy:
+      src: /tmp/index.html
+      dest: /var/www/html/
+
