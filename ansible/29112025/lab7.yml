@@ -11,5 +11,5 @@
         - added_user.rc == 9 
       success_msg: "{{ added_user.cmd }} already exists - idempotent test"
   - debug:
-      var: continuing here
+      msg: continuing here
   
