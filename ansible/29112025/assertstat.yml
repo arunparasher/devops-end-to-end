@@ -1,1 +1,11 @@
 ---
+- name: sample of stat and assert
+  hosts: local
+  tasks:
+  - name: stat a directory
+    stat:
+      path: /etc/hosts
+    register: sta
+  - name: assert that /etc is directory
+    assert:
+      that: sta.stat.isdir
