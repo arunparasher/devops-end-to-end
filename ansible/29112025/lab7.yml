@@ -8,7 +8,7 @@
   - name: rc 9 is OK
     assert:
       that:
-        - added_user.rc == 9 
+        - added_user.rc = 9 
       success_msg: "{{ added_user.user }} already exists - idempotent test"
   - debug:
       var: continuing here
