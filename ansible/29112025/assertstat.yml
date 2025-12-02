@@ -1,6 +1,6 @@
 ---
 - name: sample of stat and assert
-  hosts: local
+  hosts: localhost
   tasks:
   - name: stat a directory
     stat:
