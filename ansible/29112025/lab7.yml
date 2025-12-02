@@ -1,0 +1,8 @@
+---
+- name: idempotent command
+  hosts: localhost
+  tasks:
+  - command: useradd joan
+    register: added_user
+  - debug:
+      var: added_user
