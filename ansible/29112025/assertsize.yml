@@ -8,7 +8,7 @@
     assert:
       that:
       - (filesize | int) <= 100
-      - (filesize | int) >= 1}}
+      - (filesize | int) >= 1
       fail_msg: "filesize must be between o and 100 megabytes"
       success_msg: "filesize is within the valid range"
   - name: creatre a file
