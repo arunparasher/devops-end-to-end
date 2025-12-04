@@ -4,7 +4,8 @@
   become: yes
   tasks:
   - file:
-    path: /root/ansible/test/testfile
+      path: /root/ansible/test/testfile
+      state: directory
 - hosts: web1
   gather_facts: no
   tasks:
