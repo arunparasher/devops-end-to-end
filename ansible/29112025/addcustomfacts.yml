@@ -1,0 +1,21 @@
+---
+- hosts: web1
+  gather_facts: no
+  tasks:
+  - name: create custom fact on web1 host
+    blockinfile:
+      path: /etc/ansible/facts.d/local.fact
+      create: true
+      block: |
+        [local_facts]
+        type: production
+- hosts: web2
+  gather_facts: no
+  tasks:
+  - name: Create custom fact on web2 host
+    blockinfile:
+      path: /etc/ansible/facts.d/local.fact
+      create: true
+      block: |
+        [local_facts]
+        type: dev
