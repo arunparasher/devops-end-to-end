@@ -5,7 +5,7 @@
   tasks: 
   - name: find ansible.cfg file
     find:
-     paths: /home/root/playbooks
+     paths: /root/playbooks/
      patterns: ansible.cfg
      recurse: yes
     register: output
