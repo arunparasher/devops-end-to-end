@@ -6,8 +6,8 @@
   - name: find ansible.cfg file
     find:
      paths: /home/root/playbooks
-      patterns: ansible.cfg
-      recurse: yes
+     patterns: ansible.cfg
+     recurse: yes
     register: output
   - debug:
       var: item.path
