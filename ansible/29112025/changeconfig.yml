@@ -12,7 +12,7 @@
   - debug:
       msg: "{{ output }}"
   - debug:
-      msg: "{{ item.path }}"
+      var: "{{ item.path }}"
     loop: "{{ output.files }}"
   # - blockinfile:
   #     path: "{{ item.path }}"
