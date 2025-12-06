@@ -10,9 +10,10 @@
      recurse: yes
     register: output
   - debug:
+      msg: output
+  - debug:
       var: item.path
       msg: item.path
-      msg: item.output
     loop: "{{ output.files }}"
   # - blockinfile:
   #     path: "{{ item.path }}"
