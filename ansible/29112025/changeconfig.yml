@@ -10,14 +10,14 @@
      recurse: yes
     register: output
   - debug:
-      var: item.path
+      msg: item.path
     loop: "{{ output.files }}"
-  - blockinfile:
-      path: "{{ item.path }}"
-      insertafter: "defaults"
-      marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
-      block: |
-        fact_caching = redis
-        fact_caching_timeout = 3600
-        fact_caching_connection = localhost:6379:0
-    loop: "{{ output.files }}"
+  # - blockinfile:
+  #     path: "{{ item.path }}"
+  #     insertafter: "defaults"
+  #     marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+  #     block: |
+  #       fact_caching = redis
+  #       fact_caching_timeout = 3600
+  #       fact_caching_connection = localhost:6379:0
+  #   loop: "{{ output.files }}"
