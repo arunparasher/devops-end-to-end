@@ -15,3 +15,6 @@
     template:
       src: vsftpd.j2
       dest: /etc/vsftpd/vsftpd.conf
+      owner: root
+      group: root
+      mode: '0644'
