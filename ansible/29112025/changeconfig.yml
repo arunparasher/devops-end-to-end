@@ -16,7 +16,7 @@
     loop: "{{ output.files }}"
   - blockinfile:
       path: "{{ item.path }}"
-      insertafter: "this is line 2"
+      insertafter: "this is test line 2"
       marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
       block: |
         fact_caching = redis
