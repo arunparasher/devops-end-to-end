@@ -17,7 +17,7 @@
   - blockinfile:
       path: "{{ item.path }}"
       insertafter: "this is test line 2"
-      marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+      marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK UPDATED BY ARUN-->"
       block: |
         fact_caching = redis
         fact_caching_timeout = 3600
