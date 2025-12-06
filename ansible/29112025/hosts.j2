@@ -3,7 +3,7 @@
 {% endfor %}
 
 {% for host in groups['web'] %}
-  {{ hostvars[host]['ansible_fdqn'] }}
+  {{ hostvars[host]['ansible_fqdn'] }}
 {% endfor %}
 
 {% for host in groups['web'] %}
