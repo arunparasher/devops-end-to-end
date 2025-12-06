@@ -14,12 +14,12 @@
   - debug:
       var: "{{ item.path }}"
     loop: "{{ output.files }}"
-  # - blockinfile:
-  #     path: "{{ item.path }}"
-  #     insertafter: "defaults"
-  #     marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
-  #     block: |
-  #       fact_caching = redis
-  #       fact_caching_timeout = 3600
-  #       fact_caching_connection = localhost:6379:0
-  #   loop: "{{ output.files }}"
+  - blockinfile:
+      path: "{{ item.path }}"
+      insertafter: "this is line 2"
+      marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+      block: |
+        fact_caching = redis
+        fact_caching_timeout = 3600
+        fact_caching_connection = localhost:6379:0
+    loop: "{{ output.files }}"
