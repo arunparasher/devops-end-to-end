@@ -1,9 +1,11 @@
 {% for host in groups['web'] %}
   {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
 {% end of %}
+
 {% for host in groups['web'] %}
   {{ hostvars[host]['ansible_fdqn'] }}
 {% end of %}
+
 {% for host in groups['web'] %}
   {{ hostvars[host]['ansible_hostname'] }}
 {% end of %}
