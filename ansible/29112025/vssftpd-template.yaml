@@ -8,9 +8,9 @@
     anon_upload_enable: yes
   tasks:
   - name: install VSFTPD
-    yum:
+    package:
       name: vsftpd
-      state: present
+      state: latest
   - name: configure VSFTPD using a template
     template:
       src: vsftpd.j2
