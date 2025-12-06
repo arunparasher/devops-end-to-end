@@ -13,7 +13,6 @@
       msg: output
   - debug:
       var: item.path
-      msg: item.path
     loop: "{{ output.files }}"
   # - blockinfile:
   #     path: "{{ item.path }}"
