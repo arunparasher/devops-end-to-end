@@ -10,7 +10,7 @@
      recurse: yes
     register: output
   - debug:
-      msg: output
+      msg: "{{ output }}
   - debug:
       var: item.path
     loop: "{{ output.files }}"
