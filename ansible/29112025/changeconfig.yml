@@ -6,7 +6,7 @@
   - name: find ansible.cfg file
     find:
      paths: /root/playbooks/
-     patterns: testfile
+     patterns: testfile*
      recurse: yes
     register: output
   - debug:
