@@ -5,8 +5,9 @@
     - name: Clone the repository
       git:
         repo: 'https://github.com/arunparasher/devops-end-to-end.git'
-        dest: '/root/playbooks'
+        dest: '/root/playbooks/repo'
         version: main
+        force: yes
     - name: Set up Git authentication
       ansible.builtin.shell: |
         git config --global credential.helper store
@@ -32,4 +33,24 @@
     - name: copy inventory file from local to Git cloned repo
       copy:
         src: /root/playbooks/inventory
-        dest: /root/playbooks/devops-end-to-end/ansible/29112025/inventory
+        dest: /root/playbooks/repo/ansible/29112025/inventory
+    - name: git sync
+      ansible.builtin.shell: |
+        cd /root/playbooks/repo
+        git pull https://{{ GIT_TOKEN }}@github.com/arunparasher/devops-end-to-end.git main
+      environment:
+        GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}"
+      args:
+        executable: /bin/bash
+    - name: git push
+      ansible.builtin.shell: |
+        cd /root/playbooks/repo
+        git add .
+        if ! git diff --cached --quiet; then
+            git commit -m "Inventory sync: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+            git push https://{{ GIT_TOKEN }}@github.com/arunparasher/devops-end-to-end.git main
+        fi
+      environment:
+        GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}"
+      args:
+        executable: /bin/bash
