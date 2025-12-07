@@ -17,13 +17,16 @@
     when: httpd_status.stdout == "active"
   roles:
     - geerlingguy.nginx
-  register: nginx_installation
   when: ansible_facts['os_family'] == "Debian"
   tasks:
+    - name: check nginx status
+      shell: systemctl is-active nginx
+      register: nginx_status
+      ignore_errors: yes
     - name: ensure nginx is started and enabled if installed
       service:
         name: nginx
         state: started
         enabled: yes
-      when: nginx_installation is changed
+      when: nginx_installation is active
         
