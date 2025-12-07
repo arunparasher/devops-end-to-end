@@ -1,0 +1,23 @@
+---
+- name: git clone repo
+  hosts: localhost
+  tasks:
+    - name: Clone the repository
+      git:
+        repo: 'https://github.com/arunparasher/devops-end-to-end.git'
+        dest: '/root/playbooks'
+        version: main
+    - name: Set up Git authentication
+      ansible.builtin.shell: |
+        git config --global credential.helper store
+        echo "https://{{ GIT_TOKEN }}:@github.com" > ~/.git-credentials
+      environment:
+        GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}" 
+      args:
+        executable: /bin/bash
+    - name: Configure Git user name and email
+      ansible.builtin.shell: |
+        git config --global user.name "Arun Vanam"
+        git config --global user.email "arun.vanam@outlook.com"
+      args:
+        executable: /bin/bash
