@@ -54,7 +54,7 @@
         GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}"
       args:
         executable: /bin/bash
----
+        
 - name: install apps from roles
   hosts: localhost
   ignore_errors: yes
