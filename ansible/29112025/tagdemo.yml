@@ -7,7 +7,7 @@
   - name: second task
     debug: msg="this is second message"
   tag: first
---------------------------------------------------
+
 - name: second task
   hosts: localhost
   tasks:
