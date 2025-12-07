@@ -54,27 +54,22 @@
         GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}"
       args:
         executable: /bin/bash
-        
-- name: install apps from roles
-  hosts: localhost
-  ignore_errors: yes
-  tasks:
-  - name: update apt cache
-    apt: 
-      update_cache: yes
-  - name: install less package
-    apt:
-      name: less
-      state: present
-    register: less_status
-  - name: install tree package
-    apt: 
-      name: tree
-      state: present
-    register: tree_status
-  - service:
-      name: nginx
-      enabled: yes
-      state: started
-  - debug: 
-      msg: "less package is availalbe? : {{ less_status.changed }} and tree package is available? = {{ tree_status.changed }}"
+    - name: update apt cache
+      apt: 
+        update_cache: yes
+    - name: install less package
+      apt:
+        name: less
+        state: present
+      register: less_status
+    - name: install tree package
+      apt: 
+        name: tree
+        state: present
+      register: tree_status
+    - service:
+        name: nginx
+        enabled: yes
+        state: started
+    - debug: 
+        msg: "less package is availalbe? : {{ less_status.changed }} and tree package is available? = {{ tree_status.changed }}"
