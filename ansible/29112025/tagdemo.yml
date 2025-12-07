@@ -1,0 +1,16 @@
+---
+- name: first tasks
+  hosts: localhost
+  tasks:
+  - name: first tasks
+    debug: msg="this is first message"
+  - name: second task
+    debug: msg="this is second message"
+  tag: first
+--------------------------------------------------
+- name: second task
+  hosts: localhost
+  tasks:
+  - debug: msg="this is third message"
+  - debug: msg="this is fourth message"
+  tag: second
