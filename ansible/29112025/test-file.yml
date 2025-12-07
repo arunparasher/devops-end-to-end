@@ -9,12 +9,12 @@
   - name: install less package
     apt:
       name: less
-      state: absent
+      state: present
     register: less_status
   - name: install tree package
     apt: 
       name: tree
-      state: absent
+      state: present
     register: tree_status
   roles:
   - geerlingguy.nginx
