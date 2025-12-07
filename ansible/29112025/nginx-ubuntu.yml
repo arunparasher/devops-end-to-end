@@ -1,0 +1,31 @@
+---
+- name: install nginx based on os_family
+  hosts: all
+  tasks:
+  - name: install nginx on UBUNTU
+    roles:
+      - role: geerlingguy.nginx
+        pretask: 
+          - name: check httpd install status
+            ansible.builtin.shell: systemctl is-active httpd
+            register: httpd_status
+            ignore_errors: yes
+          - name: stop and disable httpd if installed
+            ansible.builtin.systemd:
+              name: httpd
+              state: stopped
+              enabled: no
+            when: httpd_status.stdout == "active"  
+          - name: perform update cache
+            ansible.builtin.apt:
+              update_cache: yes                              
+    when: ansible_facts['os_family'] == "Debian"
+  
+  - name: remove apt cache files
+    apt:
+      autoclean: yes
+    register: apt_clean
+  - name: apt clean status:
+    debug:
+      msg: "Apt cache clean changed={{ apt_clean.changed }}"
+    when: apt_clean.changed
