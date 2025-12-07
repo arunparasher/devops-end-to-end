@@ -25,7 +25,7 @@
     apt:
       autoclean: yes
     register: apt_clean
-  - name: apt clean status:
+  - name: apt clean status
     debug:
       msg: "Apt cache clean changed={{ apt_clean.changed }}"
     when: apt_clean.changed
