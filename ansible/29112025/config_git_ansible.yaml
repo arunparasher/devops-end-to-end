@@ -15,9 +15,17 @@
         GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}" 
       args:
         executable: /bin/bash
+      register: git_auth_setup
+    - name: Debug Git authentication setup
+      ansible.builtin.debug:
+        var: git_auth_setup.stdout_lines
     - name: Configure Git user name and email
       ansible.builtin.shell: |
         git config --global user.name "Arun Vanam"
         git config --global user.email "arun.vanam@outlook.com"
+      args:
+        executable: /bin/bash
+    - name: Verify Git configuration
+      ansible.builtin.shell: git config --list
       args:
         executable: /bin/bash
