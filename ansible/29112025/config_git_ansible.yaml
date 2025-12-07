@@ -1,7 +1,7 @@
 ---
 - name: git configuration, repo clone and app install for ansible setup
   hosts: localhost
-  gathering_facts: no
+  gather_facts: no
   tasks:
     - name: Clone the repository
       git:
