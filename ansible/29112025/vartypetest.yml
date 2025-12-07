@@ -3,10 +3,10 @@
   hosts: localhost
   become: no
   vars: 
-  - car: mercedes
-  - number: 12
-  - sunny: True
-  - rainy: true
+    car: mercedes
+    number: 12
+    sunny: True
+    rainy: true
   tasks:
   - name: testing string
     debug:
