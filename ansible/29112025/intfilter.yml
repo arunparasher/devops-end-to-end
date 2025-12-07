@@ -1,5 +1,6 @@
 ---
 - name: variable testing
+  hosts: localhost
   vars_prompt:
   - name: filesize
     prompt: "specify a file size in MB"
