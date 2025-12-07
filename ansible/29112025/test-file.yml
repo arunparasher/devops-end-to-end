@@ -1,6 +1,7 @@
 ---
 - name: install apps from roles
   hosts: localhost
+  ignore_erros: yes
   pre_tasks:
   - name: update apt cache
     apt: 
