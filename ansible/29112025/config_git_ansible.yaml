@@ -29,3 +29,7 @@
       ansible.builtin.shell: git config --list
       args:
         executable: /bin/bash
+    - name: copy inventory file from local to Git cloned repo
+      copy:
+        src: /root/playbooks/inventory
+        dest: /root/playbooks/devops-end-to-end/ansible/29112025/inventory
