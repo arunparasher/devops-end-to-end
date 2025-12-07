@@ -9,12 +9,12 @@
   - name: install less package
     apt:
       name: less
-      state: present
+      state: absent
     register: less_status
   - name: install tree package
     apt: 
       name: tree
-      state: present
+      state: absent
     register: tree_status
   roles:
   - geerlingguy.nginx
@@ -24,4 +24,4 @@
       enabled: yes
       state: started
   - debug: 
-      msg: "both apps status {{ less_status.changed }} {{ tree_status.changed }}"
+      msg: "less changed = {{ less_status.changed }} tree changed = {{ tree_status.changed }}"
