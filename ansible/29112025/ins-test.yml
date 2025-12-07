@@ -1,0 +1,22 @@
+---
+- name: install Neovim editor
+  hosts: all
+  tasks:
+  - name: install Neovim in RHEL
+    yum:
+      name: neovim
+      state: present
+    become: yes
+    when: ansible_facts['os_family'] == "RedHat"
+  - name: install Neovim in Ubuntu
+    apt:
+      name: neovim
+      state: present
+    become: yes
+    when: ansible_facts['os_family'] == "Debian"
+- name: run role to configure motd
+  hosts: all
+  vars:
+    ansible_manager: ARUN
+  roles:
+    - motd
