@@ -1,6 +1,7 @@
 ---
 - name: git clone repo
   hosts: localhost
+  gathering_facts: no
   tasks:
     - name: Clone the repository
       git:
