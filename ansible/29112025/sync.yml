@@ -1,0 +1,8 @@
+---
+- name: copy multiple files
+  hosts: all
+  tasks:
+  - name: copy using sync command
+    syncronize:
+      src: webfiles/
+      dest: /var/www/html
