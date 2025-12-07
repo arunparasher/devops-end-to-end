@@ -7,18 +7,20 @@
       update_cache: yes
   - name: install less package
     apt:
-      install: less
+      name: less
+      state: present
     register: less_status
   - name: install tree package
     apt: 
-      install: tree
+      name: tree
+      state: present
     register: tree_status
   roles:
-    role: geerlingguy.nginx
+  - geerlingguy.nginx
   post_tasks:
   - service:
       name: nginx
       enabled: yes
       state: started
   - debug: 
-      msg: both apps status {{ less_status }} {{ tree_status }}
+      msg: "both apps status {{ less_status.changed }} {{ tree_status.changed }}"
