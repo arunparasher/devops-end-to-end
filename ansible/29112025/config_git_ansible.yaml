@@ -67,9 +67,5 @@
         name: tree
         state: present
       register: tree_status
-    - service:
-        name: nginx
-        enabled: yes
-        state: started
     - debug: 
         msg: "less package is availalbe? : {{ less_status.changed }} and tree package is available? = {{ tree_status.changed }}"
