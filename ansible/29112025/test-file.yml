@@ -14,7 +14,7 @@
       install: tree
     register: tree_status
   roles:
-  - geerlingguy.nginx
+    role: geerlingguy.nginx
   post_tasks:
   - service:
       name: nginx
