@@ -58,7 +58,7 @@
 - name: install apps from roles
   hosts: localhost
   ignore_errors: yes
-  pre_tasks:
+  tasks:
   - name: update apt cache
     apt: 
       update_cache: yes
@@ -72,9 +72,6 @@
       name: tree
       state: present
     register: tree_status
-  # roles:
-  # - geerlingguy.nginx
-  post_tasks:
   - service:
       name: nginx
       enabled: yes
