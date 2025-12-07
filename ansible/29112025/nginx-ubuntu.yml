@@ -28,5 +28,5 @@
         name: nginx
         state: started
         enabled: yes
-      when: nginx_installation is active
+      when: nginx_status.rc == 0
         
