@@ -1,0 +1,5 @@
+---
+- name: demonstrate motd role
+  hosts: all
+  roles:
+    - motd

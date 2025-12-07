@@ -34,7 +34,7 @@
       copy:
         src: /root/playbooks/inventory
         dest: /root/playbooks/repo/ansible/29112025/inventory
-    - name: git sync
+    - name: git pull latest changes
       ansible.builtin.shell: |
         cd /root/playbooks/repo
         git pull https://{{ GIT_TOKEN }}@github.com/arunparasher/devops-end-to-end.git main
