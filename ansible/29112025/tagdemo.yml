@@ -1,13 +1,17 @@
 ---
 - name: first task
   hosts: localhost
-  tasks:
-  - debug: msg="this is first message"
-  - debug: msg="this is second message"
   tag: first
+  tasks:
+  - debug: 
+      msg: this is first message
+  - debug: 
+      msg: this is second message
 - name: second task
   hosts: localhost
-  tasks:
-  - debug: msg="this is third message"
-  - debug: msg="this is fourth message"
   tag: second
+  tasks:
+  - debug: 
+      msg: this is third message
+  - debug: 
+      msg: this is fourth message
