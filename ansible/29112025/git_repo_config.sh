@@ -37,12 +37,10 @@ cd "$REPO_DIR"
 # fi
 
 ### --- Commit + Push if Changes Exist --- ###
+
 git add .
 
-if git diff --cached --quiet; then
-    echo "No changes to commit."
-else
-    git commit -m "Auto-sync inventory $(date '+%Y-%m-%d %H:%M:%S')"
-    git push -u origin main
+if ! git diff --cached --quiet; then
+    git commit -m "Inventory sync: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+    git push https://$GIT_TOKEN@github.com/arunparasher/devops-end-to-end.git main
 fi
-
