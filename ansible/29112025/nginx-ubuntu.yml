@@ -10,14 +10,15 @@
     register: httpd_status
     ignore_errors: yes
   - name: stop and disable httpd if active
-    package:
+    systemd: 
       name: httpd
-      state: absent
+      state: stopped
+      enabled: no
     when: httpd_status.stdout == "active"
   roles:
     - geerlingguy.nginx
-  when: ansible_facts['os_family'] == "Debian"
   register: nginx_installation
+  when: ansible_facts['os_family'] == "Debian"
   tasks:
     - name: ensure nginx is started and enabled if installed
       service:
