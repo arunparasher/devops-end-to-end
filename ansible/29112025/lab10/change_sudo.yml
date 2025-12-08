@@ -1,0 +1,9 @@
+---
+- name: name change sudo config
+  hosts: all
+  tasks:
+  - name: changing the file
+    lineinfile:
+      path: /etc/sudoers
+      line: 'Defaults timestamp_type=global,timestamp_timeout=120,!requiretty'
+      validate: /usr/sbin/visudo -cf %s

@@ -1,0 +1,50 @@
+---
+- name: install nginx on Ubuntu (Debian-family only)
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  pre_tasks:
+    - name: only run pre_tasks on Debian-family hosts - update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: check apache install status (Debian)
+      ansible.builtin.shell: systemctl is-active apache2
+      register: apache_status
+      ignore_errors: yes
+      changed_when: false
+      failed_when: false
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: stop and disable apache if active (Debian)
+      ansible.builtin.systemd:
+        name: apache2
+        state: stopped
+        enabled: no
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - apache_status.stdout == "active"
+
+  roles:
+    - role: geerlingguy.nginx
+      when: ansible_facts['os_family'] == "Debian"
+
+  tasks:
+    - name: check nginx status (Debian)
+      ansible.builtin.shell: systemctl is-active nginx
+      register: nginx_status
+      ignore_errors: yes
+      changed_when: false
+      failed_when: false
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: ensure nginx is started and enabled if installed (Debian)
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - nginx_status.rc == 0

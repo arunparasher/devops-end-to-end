@@ -1,0 +1,25 @@
+---
+- name: file copy module test
+  hosts: all
+  tasks:
+  - name: copy file demo
+    copy:
+      src: /etc/hosts
+      dest: /tmp/
+  - name: add some lines to /tmp/hosts
+    blockinfile:
+      path: /tmp/hosts
+      block: |
+        # added by ansible
+      state: present
+  - name: verrify file checksum
+    stat: 
+      path: /tmp/hosts
+      checksum_algorithm: md5
+    register: host_stat
+  - debug:
+      msg: "The checksum of /tmp/hosts is {{ host_stat.stat.checksum }}"
+  - name: fetch a file
+    fetch:
+      src: /tmp/hosts
+      dest: /tmp/

@@ -1,0 +1,76 @@
+---
+- name: git configuration, repo clone and app install for ansible setup
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Clone the repository
+      git:
+        repo: 'https://github.com/arunparasher/devops-end-to-end.git'
+        dest: '/root/playbooks/repo'
+        version: main
+        force: yes
+    - name: Set up Git authentication
+      ansible.builtin.shell: |
+        git config --global credential.helper store
+        echo "https://{{ GIT_TOKEN }}:@github.com" > ~/.git-credentials
+      environment:
+        GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}" 
+      args:
+        executable: /bin/bash
+      register: git_auth_setup
+    - name: Debug Git authentication setup
+      ansible.builtin.debug:
+        var: git_auth_setup.stdout_lines
+    - name: Configure Git user name and email
+      ansible.builtin.shell: |
+        git config --global user.name "Arun Vanam"
+        git config --global user.email "arun.vanam@outlook.com"
+      args:
+        executable: /bin/bash
+    - name: Verify Git configuration
+      ansible.builtin.shell: git config --list
+      args:
+        executable: /bin/bash
+    - name: copy inventory file from local to Git cloned repo
+      copy:
+        src: /root/playbooks/inventory
+        dest: /root/playbooks/repo/ansible/29112025/inventory
+    - name: git pull latest changes
+      ansible.builtin.shell: |
+        cd /root/playbooks/repo
+        git pull https://{{ GIT_TOKEN }}@github.com/arunparasher/devops-end-to-end.git main
+      environment:
+        GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}"
+      args:
+        executable: /bin/bash
+    - name: git push
+      ansible.builtin.shell: |
+        cd /root/playbooks/repo
+        git add .
+        if ! git diff --cached --quiet; then
+            git commit -m "Inventory sync: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+            git push https://{{ GIT_TOKEN }}@github.com/arunparasher/devops-end-to-end.git main
+        fi
+      environment:
+        GIT_TOKEN: "{{ lookup('env', 'GIT_TOKEN') }}"
+      args:
+        executable: /bin/bash
+    - name: update apt cache
+      apt: 
+        update_cache: yes
+    - name: install less package
+      apt:
+        name: less
+        state: present
+      register: less_status
+    - name: install neovim
+      apt:
+        name: neovim
+        state: present
+    - name: install tree package
+      apt: 
+        name: tree
+        state: present
+      register: tree_status
+    - debug: 
+        msg: "less package is availalbe? : {{ less_status.changed }} and tree package is available? = {{ tree_status.changed }}"

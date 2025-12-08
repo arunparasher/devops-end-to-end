@@ -1,0 +1,25 @@
+---
+- name: find config
+  hosts: localhost
+  become: yes
+  tasks: 
+  - name: find ansible.cfg file
+    find:
+     paths: /root/playbooks/
+     patterns: testfile*
+     recurse: yes
+    register: output
+  - debug:
+      msg: "{{ output }}"
+  - debug:
+      var: "{{ item.path }}"
+    loop: "{{ output.files }}"
+  - blockinfile:
+      path: "{{ item.path }}"
+      insertafter: "this is test line 2"
+      marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK UPDATED BY ARUN-->"
+      block: |
+        fact_caching = redis
+        fact_caching_timeout = 3600
+        fact_caching_connection = localhost:6379:0
+    loop: "{{ output.files }}"

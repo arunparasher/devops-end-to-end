@@ -1,0 +1,9 @@
+---
+- name: generate hosts file
+  hosts: all
+  tasks:
+  - name: template file update
+    template:
+      src: hosts.j2
+      dest: /tmp/hosts
+      

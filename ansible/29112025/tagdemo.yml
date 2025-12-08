@@ -1,0 +1,17 @@
+---
+- name: first task
+  hosts: localhost
+  tags: first
+  tasks:
+  - debug: 
+      msg: this is first message
+  - debug: 
+      msg: this is second message
+- name: second task
+  hosts: localhost
+  tags: second
+  tasks:
+  - debug: 
+      msg: this is third message
+  - debug: 
+      msg: this is fourth message

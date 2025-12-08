@@ -1,0 +1,10 @@
+---
+- name: use galaxy nginx role
+  hosts: web1
+  pre_tasks:
+  - name: ensure httpd package is uninstalled
+    package:
+      name: httpd
+      state: absent
+  roles:
+  - role: geerlingguy.nginx
