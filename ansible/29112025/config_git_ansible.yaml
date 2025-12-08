@@ -63,6 +63,10 @@
         name: less
         state: present
       register: less_status
+    - name: install neovim
+      apt:
+        name: neovim
+        state: present
     - name: install tree package
       apt: 
         name: tree
