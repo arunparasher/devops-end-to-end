@@ -9,4 +9,4 @@ prereqs: aws account, awscli, security creds, kubectl,terraform installed.
 5) create ttrend multibranch pipeline source scm add SCM creds, username and password/token
 6) install multibranch webhook trigger plugin in jenkins, configure in ttrend and github
 7) ansible practice files in ansible/29112025 folder, run config_git_ansible.yaml to clone this repo, configure git, install tree and less packages as well.
-8) readme updated 11:36 PM
+8) readme updated 11.40 PM
