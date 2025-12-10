@@ -1,8 +1,0 @@
----
-- name: test file creation
-  hosts: all
-  gather_facts: yes
-  tasks: 
-  - name: file creation
-    file: 
-    
