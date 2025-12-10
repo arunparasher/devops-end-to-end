@@ -1,6 +1,0 @@
----
-- name: Test Playbook
-  # hosts: localhost
-  # tasks:
-  #   - name: Ensure test file exists
-  #     file:
