@@ -16,13 +16,13 @@
       msg: the IP address is {{ansible_facts['ansible_default_ipv4'] }}
   - name: show if this is a valid IP address
     debug:
-      msg: "{{ ansible_facts['ansible_default_ipv4']['address'] | ipaddr }}"
+      msg: "{{ ansible_facts['default_ipv4']['address'] | ipaddr }}"
   - name: this happens if the variable does not contain a valid IP address
     debug:
       msg: "{{ ansible_facts['default_ipv4'] | ipaddr }}"
   - name: now lets check out net_mask
     debug:
-      msg: "{{ net_mask | ipaddr(netmask) }}"
+      msg: "{{ net_mask | ipaddr('netmask') }}"
   - name: net is used to convert netmasl to CIDR notation
     debug: 
       msg: "{{ net_mask | ipaddr('netmask')}}"
@@ -40,4 +40,4 @@
       msg: "{{ansible_facts['default_ipv4']['address'] | ipaddr('int') }}"
   - name: and how about findign availalbe IP addresses in a range
     debug:
-      msg: "{{ '193.179.99.8/27' | ipaddr(range_usable) }}"
+      msg: "{{ '193.179.99.8/27' | ipaddr('range_usable') }}"
