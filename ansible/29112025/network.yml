@@ -13,7 +13,7 @@
       msg: the netmask value is {{ net_mask }}
   - name: print IP addresses
     debug:
-      msg: the IP address is {{.ansible_facts['ansible_default_ipv4'] }}
+      msg: the IP address is {{ansible_facts['ansible_default_ipv4'] }}
   - name: show if this is a valid IP address
     debug:
       msg: "{{ ansible_facts['ansible_default_ipv4']['address'] | ipaddr }}"
