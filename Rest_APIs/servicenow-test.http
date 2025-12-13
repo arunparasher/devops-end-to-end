@@ -1,0 +1,244 @@
+##############################################
+#         SERVICENOW REST CLIENT 
+#    VS CODE REST CLIENT (.http file)
+##############################################
+
+# -------------------------------------------
+# CONFIGURATION
+# -------------------------------------------
+
+@instance = dev286502.service-now.com
+
+@auth = YWRtaW46R3ktTjZqYXdTOU8h
+
+
+##############################################
+#                BASIC TESTS
+##############################################
+
+### 0. Test connection to ServiceNow
+GET https://{{instance}}/api/now/table/incident?sysparm_limit=1
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+##############################################
+#              INCIDENT OPERATIONS
+##############################################
+
+### 1. Get recent incidents (limit 10)
+GET https://{{instance}}/api/now/table/incident?sysparm_limit=10&sysparm_display_value=true
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### 2. Create a new incident
+POST https://{{instance}}/api/now/table/incident
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "short_description": "Incident created via VS Code REST Client",
+  "description": "This incident was created using the ServiceNow Table API.",
+  "urgency": "2",
+  "impact": "2",
+  "category": "software"
+}
+
+
+
+### 3. Get an incident by sys_id
+# Replace <SYS_ID>
+GET https://{{instance}}/api/now/table/incident/<SYS_ID>
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+### 4. Update an incident (PATCH)
+PATCH https://{{instance}}/api/now/table/incident/<SYS_ID>
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "short_description": "Updated via REST Client 👍"
+}
+
+
+
+### 5. Delete an incident
+DELETE https://{{instance}}/api/now/table/incident/<SYS_ID>
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+##############################################
+#           CHANGE REQUEST OPERATIONS
+##############################################
+
+### 6. Create a Normal Change Request
+POST https://{{instance}}/api/now/table/change_request
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "short_description": "Change created via REST API",
+  "type": "normal",
+  "category": "Hardware",
+  "risk": "low",
+  "impact": "low"
+}
+
+
+
+### 7. Get all Change Requests (limit 5)
+GET https://{{instance}}/api/now/table/change_request?sysparm_limit=5
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+##############################################
+#           CATALOG REQUESTS (RITM)
+##############################################
+
+### 8. Create a Catalog Request (Producer)
+# Replace <CATALOG_SYS_ID> with item sys_id
+POST https://{{instance}}/api/sn_sc/servicecatalog/items/sc_cat_item/<CATALOG_SYS_ID>/submit_producer
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "variables": {
+    "description": "Created from VS Code REST Client",
+    "requested_for": "admin"
+  }
+}
+
+
+
+##############################################
+#                   CMDB
+##############################################
+
+### 9. Query CMDB for Linux servers
+GET https://{{instance}}/api/now/table/cmdb_ci?os=Linux&sysparm_limit=5&sysparm_display_value=true
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+### 10. Query CMDB by Name
+GET https://{{instance}}/api/now/table/cmdb_ci?name=webserver01&sysparm_limit=1
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+##############################################
+#                   USERS
+##############################################
+
+### 11. Search users (filter by name)
+GET https://{{instance}}/api/now/table/sys_user?name=admin&sysparm_limit=5
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+### 12. Create a new user
+POST https://{{instance}}/api/now/table/sys_user
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "user_name": "john.doe",
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com"
+}
+
+
+
+##############################################
+#              ATTACHMENTS
+##############################################
+
+### 13. Upload attachment to an incident
+# Replace <SYS_ID>
+POST https://{{instance}}/api/now/attachment/file?table_name=incident&table_sys_id=<SYS_ID>&file_name=testfile.txt
+Authorization: Basic {{auth}}
+Content-Type: text/plain
+
+This is an attachment uploaded via API.
+
+
+
+### 14. List attachments for an incident
+GET https://{{instance}}/api/now/attachment?table_sys_id=<SYS_ID>
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+##############################################
+#              ADVANCED QUERIES
+##############################################
+
+### 15. Query incidents assigned to a user
+GET https://{{instance}}/api/now/table/incident?assigned_to=admin&sysparm_limit=10&sysparm_display_value=true
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+### 16. Query incidents created today
+GET https://{{instance}}/api/now/table/incident?sysparm_query=sys_created_onRELATIVEGE@dayofweek@today
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+### 17. Query using Glide Query syntax
+GET https://{{instance}}/api/now/table/incident?sysparm_query=active=true^priority=1
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+##############################################
+#              SYS DICTIONARY & METADATA
+##############################################
+
+### 18. Get all tables
+GET https://{{instance}}/api/now/table/sys_db_object?sysparm_display_value=true&sysparm_limit=50
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+### 19. Get fields for a table (incident)
+GET https://{{instance}}/api/now/table/sys_dictionary?name=incident
+Authorization: Basic {{auth}}
+Accept: application/json
+
+### GET all linux servers - limit 10, query CMDB
+GET https://{{instance}}/api/now/table/cmdb_ci_server?os=Linux&sysparm_limit=10&sysparm_display_value=true
+Authorization: Basic {{auth}}
+
+###Find Windows servers with RAM > 16GB - limit 10
+### to limit no of results use &sysparm_limit=<num>
+GET https://{{instance}}/api/now/table/cmdb_ci_server?sysparm_query=osLIKEWindows^ram_gt=16000&sysparm_display_value=true&sysparm_limit=10
+Authorization: Basic {{auth}}
+
+
+##############################################
+#                END OF FILE
+##############################################

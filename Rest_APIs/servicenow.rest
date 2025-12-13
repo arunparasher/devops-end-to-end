@@ -1,0 +1,69 @@
+@instance = dev286502.service-now.com
+
+@auth = YWRtaW46R3ktTjZqYXdTOU8h
+
+### Test ServiceNow connection
+GET https://{{instance}}/api/now/table/sc_request
+Authorization: Basic {{auth}}
+Accept: application/json
+
+### Create Incident
+POST https://{{instance}}/api/now/table/incident
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "short_description": "pipeline sysinfo dev failed",
+  "description": "This incident was created using REST Client in VS Code",
+  "urgency": "1",   
+  "impact": "2"
+}
+
+@sys_id = ad0831ed83f9f210704aec80ceaad34f
+
+### Get Incident by sys_id
+GET https://{{instance}}/api/now/table/incident/{{sys_id}}
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Update incident short_description
+PATCH https://{{instance}}/api/now/table/incident/{{sys_id}}
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "short_description": "Updated via REST Client 👍"
+}
+
+### Query CMDB for Linux servers
+GET https://{{instance}}/api/now/table/cmdb_ci?os=Linux&sysparm_limit=5
+Authorization: Basic {{auth}}
+Accept: application/json
+
+### Create a Normal Change
+POST https://{{instance}}/api/now/table/change_request
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "short_description": "Change created from API",
+  "category": "Hardware",
+  "type": "Normal"
+}
+### Create RITM (Catalog Request)
+@catalog_id = 575274511d830010f8776f77b927f284
+POST https://{{instance}}/api/sn_sc/servicecatalog/items/sc_cat_item/{{catalog_id}}/submit_producer
+Authorization: Basic {{auth}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "variables": {
+    "requested_for": "admin",
+    "description": "Example RITM via API"
+  }
+}
