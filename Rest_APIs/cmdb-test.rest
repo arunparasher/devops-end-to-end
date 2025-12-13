@@ -1,0 +1,253 @@
+##############################################
+#          SERVICENOW CMDB REST CLIENT
+#     FULL CMDB QUERY LIBRARY (VS CODE)
+##############################################
+
+@instance = dev286502.service-now.com
+
+@auth = XXX
+
+
+###############################################################
+#                     0. BASIC CMDB TEST
+###############################################################
+
+### Test CMDB connectivity
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_limit=1
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                   1. BASIC CMDB QUERIES
+###############################################################
+
+### Get 10 generic CI records
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_limit=10&sysparm_display_value=true
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Find a CI by name
+GET https://{{instance}}/api/now/table/cmdb_ci?name=webserver01&sysparm_limit=1&sysparm_display_value=true
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Get CI by sys_id (replace <SYS_ID>)
+GET https://{{instance}}/api/now/table/cmdb_ci/<SYS_ID>
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                   2. ADVANCED ENCODED (GLIDE) QUERIES
+###############################################################
+
+### Active Linux servers with >4 CPUs
+GET https://{{instance}}/api/now/table/cmdb_ci_server?sysparm_query=active=true^cpu_count>4^osLIKElinux
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### CIs updated in the last 24 hours
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_query=sys_updated_onRELATIVEGE@hour@ago@24
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### CIs missing mandatory attributes (incomplete CMDB)
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_query=manufacturerISEMPTY^install_status=1
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### CIs belonging to a Business Service (replace <SERVICE>)
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_query=business_service.name=<SERVICE>&sysparm_display_value=true
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                   3. CLASS-SPECIFIC CMDB QUERIES
+###############################################################
+
+### All servers
+GET https://{{instance}}/api/now/table/cmdb_ci_server?sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### All Windows servers
+GET https://{{instance}}/api/now/table/cmdb_ci_server?osLIKEWindows&sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### All Linux servers
+GET https://{{instance}}/api/now/table/cmdb_ci_server?osLIKELinux&sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### All databases
+GET https://{{instance}}/api/now/table/cmdb_ci_database?sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### All virtual machines
+GET https://{{instance}}/api/now/table/cmdb_ci_vm_instance?sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### All applications (application CI class)
+GET https://{{instance}}/api/now/table/cmdb_ci_appl?sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                   4. CMDB RELATIONSHIP QUERIES
+###############################################################
+
+### Get all children (downstream dependencies)
+GET https://{{instance}}/api/now/table/cmdb_rel_ci?sysparm_query=parent=<CI_SYS_ID>&sysparm_display_value=both
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Get all parents (upstream dependencies)
+GET https://{{instance}}/api/now/table/cmdb_rel_ci?sysparm_query=child=<CI_SYS_ID>&sysparm_display_value=both
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### All CIs hosted on a server
+GET https://{{instance}}/api/now/table/cmdb_rel_ci?sysparm_query=parent=<SERVER_SYS_ID>^type=Hosted%20on&sysparm_display_value=both
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                 5. DEPENDENCY GRAPH API (SUPER POWERFUL)
+###############################################################
+
+### Get full dependency map (upstream + downstream)
+GET https://{{instance}}/api/now/cmdb/instance/cmdb_ci/<SYS_ID>/relations
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Graph for a server specifically
+GET https://{{instance}}/api/now/cmdb/instance/cmdb_ci_server/<SYS_ID>/relations
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#           6. QUERY BY SPECIFIC ATTRIBUTES (FILTERING)
+###############################################################
+
+### Find server by IP
+GET https://{{instance}}/api/now/table/cmdb_ci?ip_address=10.0.0.5
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Find CIs running Java
+GET https://{{instance}}/api/now/table/cmdb_ci_computer?software_display_nameLIKEJava
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Find CIs by environment (Prod / Dev / UAT)
+GET https://{{instance}}/api/now/table/cmdb_ci?environment=Production
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                    7. CMDB HEALTH & COMPLIANCE
+###############################################################
+
+### Missing CPU or RAM data
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_query=cpu_countISEMPTY^ramISEMPTY
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### CIs missing discovery source
+GET https://{{instance}}/api/now/table/cmdb_ci?sysparm_query=discovery_sourceISEMPTY
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                  8. CMDB ASSET MANAGEMENT
+###############################################################
+
+### Find assets for a CI
+GET https://{{instance}}/api/now/table/alm_asset?sysparm_query=ci=<CI_SYS_ID>
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Get assets by serial number
+GET https://{{instance}}/api/now/table/alm_asset?serial_number=XYZ123
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                 9. CMDB MODEL LOOKUPS
+###############################################################
+
+### Lookup CI Model
+GET https://{{instance}}/api/now/table/cmdb_model?sysparm_limit=20
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+### Query by model name
+GET https://{{instance}}/api/now/table/cmdb_model?display_nameLIKEWindows
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                10. RELATIONSHIP TYPES
+###############################################################
+
+### Get all relationship types (Hosted on, Runs on, etc.)
+GET https://{{instance}}/api/now/table/cmdb_rel_type?sysparm_limit=50
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#               11. CMDB TABLE FIELDS (METADATA)
+###############################################################
+
+### Get dictionary fields for a CI class
+GET https://{{instance}}/api/now/table/sys_dictionary?name=cmdb_ci_server
+Authorization: Basic {{auth}}
+Accept: application/json
+
+
+
+###############################################################
+#                       END OF FILE
+###############################################################

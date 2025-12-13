@@ -1,6 +1,6 @@
 @instance = dev286502.service-now.com
 
-@auth = YWRtaW46R3ktTjZqYXdTOU8h
+@auth = XXX
 
 ### Test ServiceNow connection
 GET https://{{instance}}/api/now/table/sc_request
