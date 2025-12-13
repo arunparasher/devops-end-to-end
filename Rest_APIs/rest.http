@@ -1,0 +1,8 @@
+@host = arunvanam.atlassian.net
+@user = arun.vanam@outlook.com
+@token = 
+@auth = {{user}}:{{token}}
+### List projects
+GET  https://{{host}}/rest/api/3/project/search
+Authorization: Basic {{auth}}
+Accept: application/json
