@@ -1,0 +1,236 @@
+##############################################
+#           JIRA CLOUD REST CLIENT
+#       VS CODE REST CLIENT (.http file)
+##############################################
+
+@domain = arunvanam.atlassian.net
+@email = arun.vanam@outlook.com
+@token = 
+
+@enc_t = {{$base64 {{email}}:{{token}}}}
+
+### -----------------------------------------
+### 0. Test Authentication (MUST WORK FIRST)
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/serverInfo
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+### -----------------------------------------
+### 1. List All Projects
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/project
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+### -----------------------------------------
+### 2. Get All Issue Types
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/issuetype
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+### -----------------------------------------
+### 3. Get All Fields in Jira (Epic Name, Story Points etc.)
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/field
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+### -----------------------------------------
+### 4. Get Issue Types + Required Fields for Project (KAN)
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/issue/createmeta?projectKeys=KAN&expand=projects.issuetypes.fields
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+### -----------------------------------------
+### 5. Search Issues (JQL Example)
+### -----------------------------------------
+## NOT WORKING
+# GET https://{{domain}}/rest/api/3/search?jql=project=KAN
+# Authorization: Basic {{email}}:{{token}}
+# Accept: application/json
+
+
+### -----------------------------------------
+### 6. Get Issue Details (replace KAN-1)
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/issue/KAN-1
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+#############################################################
+#                      CREATE OPERATIONS
+#############################################################
+
+### -----------------------------------------
+### 7. Create Task (ADF format)
+### -----------------------------------------
+POST https://{{domain}}/rest/api/3/issue
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "fields": {
+    "project": { "key": "KAN" },
+    "summary": "Task created via REST Client",
+    "issuetype": { "name": "Task" },
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "This is a task created from VS Code REST Client -2." }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+
+### -----------------------------------------
+### 8. Create Story (adjust required field from createmeta)
+### -----------------------------------------
+POST https://{{domain}}/rest/api/3/issue
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "fields": {
+    "project": { "key": "KAN" },
+    "summary": "Story created via REST Client",
+    "issuetype": { "name": "Story" },
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "Story created from VS Code REST Client." }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+
+### -----------------------------------------
+### 9. Create Epic (Epic Name field required)
+### customfield_10011 must match YOUR EPIC NAME FIELD ID
+### -----------------------------------------
+POST https://{{domain}}/rest/api/3/issue
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "fields": {
+    "project": { "key": "KAN" },
+    "summary": "Epic created via REST Client",
+    "issuetype": { "name": "Epic" },
+    "customfield_10011": "Epic API Name",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "This is an Epic created from REST Client." }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+
+#############################################################
+#                      UPDATE OPERATIONS
+#############################################################
+
+### -----------------------------------------
+### 10. Add Comment to Issue
+### -----------------------------------------
+POST https://{{domain}}/rest/api/3/issue/KAN-1/comment
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "body": {
+    "type": "doc",
+    "version": 1,
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          { "type": "text", "text": "Comment added via REST Client. third" }
+        ]
+      }
+    ]
+  }
+}
+
+
+### -----------------------------------------
+### 11. Get Available Transitions (Statuses)
+### -----------------------------------------
+GET https://{{domain}}/rest/api/3/issue/KAN-1/transitions
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+
+
+### -----------------------------------------
+### 12. Transition Issue (Move Status)
+### Replace transition ID from above
+### -----------------------------------------
+POST https://{{domain}}/rest/api/3/issue/KAN-7/transitions
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "transition": { "id": "31" }
+}
+
+
+### -----------------------------------------
+### 13. Update Issue Fields (PUT)
+### -----------------------------------------
+PUT https://{{domain}}/rest/api/3/issue/KAN-1
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "fields": {
+    "summary": "testing update from REST Client"
+  }
+}
+
+
+#############################################################
+#                      DELETE OPERATIONS
+#############################################################
+
+### -----------------------------------------
+### 14. Delete Issue (irreversible!)
+### -----------------------------------------
+DELETE https://{{domain}}/rest/api/3/issue/KAN-1
+Authorization: Basic {{email}}:{{token}}
+Accept: application/json

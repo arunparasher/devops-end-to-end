@@ -3,6 +3,8 @@
 @token = 
 @auth = {{user}}:{{token}}
 ### List projects
-GET  https://{{host}}/rest/api/3/project/search
+GET https://{{host}}/rest/api/3/field
 Authorization: Basic {{auth}}
 Accept: application/json
+Content-Type: application/json
+
