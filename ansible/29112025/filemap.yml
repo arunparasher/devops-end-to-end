@@ -28,3 +28,8 @@
       webfilesrelative: "{{ webfileslist | map('relpath', basedir) | list }}"
   - debug:
       var: webfilesrelative
+  - name: collect mtime value for index file
+    set_fact:
+      mtime: "{{basedir_files['files'] | map(attribute='mtike') | list }}"
+  - debug: 
+      var: mtime
