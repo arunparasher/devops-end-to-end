@@ -18,7 +18,8 @@
         state: absent
   tasks:
   - name: show the original list of servers and applications
-    debug: "servers: {{ servers }}"
+    debug: 
+      msg: "servers: {{ servers }}"
   - name: Install and configure applications on each servers
     package: 
       name: "{{ item.1.name }}"
