@@ -18,25 +18,25 @@
       - name: redis
         state: absent
   tasks:
-  # - name: show the original list of servers and applications
-  #   debug: 
-  #     msg: "servers: {{ servers }}"
-  # - name: Install and configure applications on each servers
-  #   package: 
-  #     name: "{{ item.1.name }}"
-  #     state: "{{ item.1.state }}"
-  #   loop: "{{ lookup('subelements', servers, 'applications') }}"
-  #   when: ansible_os_family == "Debian"
-  #   tags: applications
-  # - name: show the configuration applied
-  #   debug: 
-  #     msg: "Server: {{ item.0.name }}, Application: {{ item.1.name }}, State: {{ item.1.state }}"
-  #   loop: "{{ lookup('subelements', servers, 'applications') }}"
-  #   tags: debug
-  - debug:
-      msg: servers
-  - debug: 
-      msg: lookup('subelements', servers, 'applications')
-  - debug: 
-      msg: "{{ item.0.name}}{{ item.0.state }}"
+  - name: show the original list of servers and applications
+    debug: 
+      msg: "servers: {{ servers }}"
+  - name: Install and configure applications on each servers
+    package: 
+      name: "{{ item.1.name }}"
+      state: "{{ item.1.state }}"
     loop: "{{ lookup('subelements', servers, 'applications') }}"
+    when: ansible_os_family == "Debian"
+    tags: applications
+  - name: show the configuration applied
+    debug: 
+      msg: "Server: {{ item.0.name }}, Application: {{ item.1.name }}, State: {{ item.1.state }}"
+    loop: "{{ lookup('subelements', servers, 'applications') }}"
+    tags: debug
+  # - debug:
+  #     msg: servers
+  # - debug: 
+  #     msg: lookup('subelements', servers, 'applications')
+  # - debug: 
+  #     msg: "{{ item.0.name}}{{ item.0.state }}"
+  #   loop: "{{ lookup('subelements', servers, 'applications') }}"

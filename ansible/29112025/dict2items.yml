@@ -1,0 +1,21 @@
+---
+- name: demo dict2items filter
+  hosts: localhost
+  gather_factes: no
+  vars:
+  # Define a dictionary with some key-value pairs
+    my_dict:
+      name: anna
+      age: 25
+      city: NewYork
+      occupation: Engineer
+  tasks:
+  - debug:
+      msg: "Original dictionary: {{ my_dict }}"
+  - set_facts:
+      my_dict_items: "{{ my_dict | dict2items }}"
+  - debug:
+      msg: "list of items: {{ my_dict_items }}" 
+  - debug:
+      msg: "Key:{{ item.key }}, Value:{{ item.value }}"
+    loop: "{{ my_dict_items }}"
