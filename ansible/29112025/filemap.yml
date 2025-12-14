@@ -8,7 +8,7 @@
   tasks:
   - name: install httpd
     apt:
-      name: httpd
+      name: apache2
       state: latest
   - name: showing files in basedir
     find: 
@@ -20,7 +20,7 @@
       var: basedir_files
   - name: showing files based on map attribures with list
     set_fact: 
-      webfileslist: "{{ basedir_files['files'] | map(attribute='path' | list)}}"
+      webfileslist: "{{ basedir_files['files'] | map(attribute='path') | list}}"
   - debug:
     var: webfileslist
   - name: now that we know that the list filter is mandatory, show relative file name
