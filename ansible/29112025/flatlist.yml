@@ -1,0 +1,23 @@
+---
+- name: demo the use of flatten filter
+  hosts: localhost
+  gather_facts: no
+  vars:
+# creating a list of lists
+    nested_list:
+    - [1,2,3]
+    - [4,5,6]
+    - [7,8,9] 
+  tasks:
+  - name: show the original nested list
+    debug: 
+      msg: "orignial nested list: {{ nested_list }}"
+  - name: Flatten the nested list
+    set_fact:
+      flattened_list: "{{ nested_list | flatten }}" 
+  - debug:
+      msg: "flattened list: {{ flattened_list }}"
+  - name: use the flattened list 
+    debug:
+      msg: "item: {{ item }}"
+    loop: "{{ flattened_list }}"
