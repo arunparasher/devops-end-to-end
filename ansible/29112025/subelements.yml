@@ -2,6 +2,7 @@
 - name: Configure servers with applications
   hosts: localhost
   gather_facts: no
+  ignore_errors: yes
   vars:
     servers: 
     - name: web_server
