@@ -30,6 +30,6 @@
       var: webfilesrelative
   - name: collect mtime value for index file
     set_fact:
-      mtime: "{{basedir_files['files'] | map(attribute='mtime') | int }}"
+      mtime: "{{basedir_files['files'] | map(attribute='mtime') }}"
   - debug: 
       var: mtime
