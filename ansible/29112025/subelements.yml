@@ -5,7 +5,7 @@
   ignore_errors: yes
   vars:
     servers: 
-    - name: web_server
+    - name: web
       applications:
       - name: nginx
         state: present
