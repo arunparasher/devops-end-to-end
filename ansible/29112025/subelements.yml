@@ -26,7 +26,7 @@
       name: "{{ item.1.name }}"
       state: "{{ item.1.state }}"
     loop: "{{ lookup('subelements', servers, 'applications') }}"
-    when: ansible_facts['ansible_os_family'] == 'Debian'
+    when: 'ansible_os_family' == 'Debian'
     tags: applications
   - name: show the configuration applied
     debug: 
