@@ -36,5 +36,7 @@
   - debug:
       msg: servers
   - debug: 
+      msg: lookup('subelements', servers, 'applications')
+  - debug: 
       msg: "{{ item.0.name}}{{ item.0.state }}"
     loop: "{{ lookup('subelements', servers, 'applications') }}"
