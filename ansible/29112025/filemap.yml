@@ -19,7 +19,7 @@
     debug: 
       var: basedir_files
   - name: showing files based on map attribures with list
-    set_facts: 
+    set_fact: 
       webfileslist: "{{ basedir_files['files'] | map(attribute='path' | list)}}"
   - debug:
     var: webfileslist
