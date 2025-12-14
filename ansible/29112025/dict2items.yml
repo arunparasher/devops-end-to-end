@@ -12,7 +12,7 @@
   tasks:
   - debug:
       msg: "Original dictionary: {{ my_dict }}"
-  - set_facts:
+  - set_fact:
       my_dict_items: "{{ my_dict | dict2items }}"
   - debug:
       msg: "list of items: {{ my_dict_items }}" 
