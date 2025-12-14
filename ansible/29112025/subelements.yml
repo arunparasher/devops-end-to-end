@@ -36,5 +36,5 @@
   - debug:
       msg: servers
   - debug: 
-      msg: "{{ item.0.name}}{{ item.0.state }}"
+      msg: "{{ item.1.name}}{{ item.1.state }}"
     loop: "{{'subelements', servers, applications}}"
