@@ -1,0 +1,32 @@
+---
+- name: configure firewall rules
+  hosts: web1
+  become: yes
+  vars: 
+    firewall_services:
+    - name: ssh
+      state: enabled
+      zone: public
+    - name: http
+    - name: https
+      state: disabled
+    - name: dns
+      zone: internal
+  tasks: 
+  - set_fact:
+      firewall_services: >- 
+      {{
+        firewall_services | map('combine', ('state':  'enabled')) 
+        | list
+      }}
+  - name: Configure firewall services
+    firewalld:
+      service: "{{ item.name }}"
+      state: "{{ item.state }}"
+      zone: "{{ item.zone | default(omit) }}"
+      immediate: yes
+      permanent: yes
+    loop: "{{ firewall_services }}"
+  - debug: 
+      msg: "service {{item.name}} is set to {{ item.state }} in {{ item.zone | default('not specified') }}"
+    loop: "{{ firewall_services }}"
