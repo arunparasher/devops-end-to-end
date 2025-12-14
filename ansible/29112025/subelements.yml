@@ -30,6 +30,6 @@
     tags: applications
   - name: show the configuration applied
     debug: 
-      msg: "Server: {{ item.0.name }}, Application: {{ item.1.name}}, State: {{ iteam.1.state }}"
-    loop: "{{ lookup('subelements'), servers, 'applications' }}"
+      msg: "Server: {{ item.0.name }}, Application: {{ item.1.name }}, State: {{ iteam.1.state }}"
+    loop: "{{ lookup('subelements', servers, 'applications') }}"
     tags: debug
